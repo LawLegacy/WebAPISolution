@@ -31,9 +31,9 @@ public class StudentRepository : IStudentRepository
     {
         using var connection = _context.CreateConnection();
         var sql = """
-            SELECT s.Name, g.Value as AverageScore FROM Students s Inner Join
+            SELECT s.StudentId, s.Name, avg(g.Value) as AverageScore FROM Students s Inner Join
             Grades g on s.StudentId = g.StudentId
-            
+            Group by s.StudentId, s.name
         """;
         return await connection.QueryAsync<AverageStudentGradeModel>(sql);
     }
